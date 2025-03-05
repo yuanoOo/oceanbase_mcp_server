@@ -1,0 +1,55 @@
+# .github/workflows/test.yml
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+    - uses: oceanbase/setup-oceanbase-ce@v1
+      with:
+        sql_port: '2881'
+
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install -r requirements-dev.txt
+        pip install -e .
+        
+    - name: Verify installation
+      run: |
+        # Show Python path
+        python -c "import sys; print('\n'.join(sys.path))"
+        # Try importing the module
+        python -c "import oceanbase_mcp_server; print('Module found at:', oceanbase_mcp_server.__file__)"
+        # List installed packages
+        pip list | grep oceanbase
+        # Show the content of site-packages
+        ls -R $(python -c "import site; print(site.getsitepackages()[0])")
+
+    - name: Run tests
+      env:
+        OB_HOST: 127.0.0.1
+        OB_USER: root
+        OB_PASSWORD: testpassword
+        OB_DATABASE: test_db
+      run: |
+        python -m pytest -v
