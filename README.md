@@ -3,6 +3,10 @@
 A Model Context Protocol (MCP) server that enables secure interaction with OceanBase databases. 
 This server allows AI assistants to list tables, read data, and execute SQL queries through a controlled interface, making database exploration and analysis safer and more structured.
 
+<a href="https://glama.ai/mcp/servers/@yuanoOo/oceanbase_mcp_server">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@yuanoOo/oceanbase_mcp_server/badge" alt="OceanBase Server MCP server" />
+</a>
+
 ## Features
 
 - List available OceanBase tables as resources
@@ -122,4 +126,3 @@ Apache License - see LICENSE file for details.
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
-
